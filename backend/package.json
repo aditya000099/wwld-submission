@@ -5,6 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest",
+    "test:coverage": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --coverage",
     "start": "ts-node server.ts"
   },
   "keywords": [],
