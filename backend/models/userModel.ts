@@ -6,8 +6,15 @@ const SALT_ROUNDS = 12;
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, select: false },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    },
+    password: { type: String, required: true, select: false, minlength: 8 },
   },
   { timestamps: true },
 );

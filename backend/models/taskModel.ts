@@ -9,7 +9,16 @@ const taskSchema = new mongoose.Schema(
       enum: ["pending", "completed"],
       default: "pending",
     },
-    dueDate: { type: Date, required: true },
+    dueDate: {
+      type: Date,
+      required: true,
+      validate: {
+        validator: function (value: Date) {
+          return value > new Date();
+        },
+        message: "Due date must be in the future",
+      },
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

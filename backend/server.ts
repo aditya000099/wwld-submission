@@ -8,7 +8,7 @@ import taskRoutes from "./routes/taskRoutes.ts";
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000", "http://localhost:5174"];
+const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
 
 app.use(
   cors({
