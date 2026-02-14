@@ -1,12 +1,25 @@
 import { createClient } from "redis";
 
-const redis = createClient({
-  url: process.env.REDIS_URL || "redis://localhost:6379",
-});
+let redis: any;
 
-redis.on("error", (err) => {
-  console.error("Redis error:", err);
-});
+if (process.env.NODE_ENV === "test") {
+  redis = {
+    on: () => { },
+    isOpen: true,
+    connect: async () => { },
+    get: async () => null,
+    setEx: async () => { },
+    del: async () => { },
+  };
+} else {
+  redis = createClient({
+    url: process.env.REDIS_URL || "redis://localhost:6379",
+  });
+
+  redis.on("error", (err) => {
+    console.error("Redis error:", err);
+  });
+}
 
 export const connectRedis = async () => {
   if (!redis.isOpen) {
