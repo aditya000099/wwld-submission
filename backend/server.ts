@@ -1,10 +1,9 @@
 import express from "express";
 import connectDb from "./db/db.ts";
-import User from "./models/userModel.ts";
-import Task from "./models/taskModel.ts";
 import cors from "cors";
 import authRoutes from "./routes/authRoute.ts";
 import taskRoutes from "./routes/taskRoutes.ts";
+import { connectRedis } from "./utils/redis.ts";
 
 const app = express();
 
@@ -16,18 +15,28 @@ app.use(
     credentials: true,
   }),
 );
+
 app.use(express.json());
 
-connectDb();
+app.use((req, res, next) => {
+  const now = new Date().toISOString();
+  console.log(`[${now}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
-app.get("/health", (req: any, res: any) => {
+
+
+connectDb();
+connectRedis();
+
+app.get("/health", (req, res) => {
   res.send("Working");
 });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
-app.listen(3000, () => {
-  console.log(`App listening on port 3000`);
-  return "Working";
+let PORT = 3000;
+app.listen(PORT, () => {
+  console.log("App listening on port ", PORT);
 });

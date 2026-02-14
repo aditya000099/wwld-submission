@@ -47,6 +47,7 @@ const signup = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    console.log("Request Received with Email", email);
 
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password required" });

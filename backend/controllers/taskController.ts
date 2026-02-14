@@ -19,7 +19,8 @@ export const getTasks = async (req: Request, res: Response) => {
     await setCache(cacheKey, tasks, 300);
 
     return res.json(tasks);
-  } catch {
+  } catch (error) {
+    console.error("Error in getTasks:", error);
     return res.status(500).json({ error: "Failed to fetch tasks" });
   }
 };
@@ -43,7 +44,8 @@ const createTask = async (req: Request, res: Response) => {
     await deleteCache(`tasks:${userId}`);
 
     return res.status(201).json(task);
-  } catch {
+  } catch (error) {
+    console.error("Error in createTask:", error);
     return res.status(500).json({ error: "Failed to create task" });
   }
 };
